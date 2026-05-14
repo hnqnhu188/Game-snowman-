@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snowman Vocabulary - Deluxe Sound Edition</title>
+    <title>Snowman Vocabulary - Teacher Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -13,8 +13,8 @@
         .hidden-part { opacity: 0; transform: translateY(10px) scale(0.9); pointer-events: none; }
         .letter-btn:disabled { cursor: not-allowed; opacity: 0.5; }
         .snow-bg { background: radial-gradient(circle at center, #ffffff 0%, #e0f2fe 100%); }
-        @keyframes sun-glow { 0%, 100% { filter: drop-shadow(0 0 5px #fbbf24); } 50% { filter: drop-shadow(0 0 15px #f59e0b); } }
-        .sun-active { animation: sun-glow 2s infinite; }
+        @keyframes pulse-soft { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        .animate-pulse-soft { animation: pulse-soft 2s infinite; }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4 snow-bg">
@@ -22,24 +22,25 @@
 <div id="success-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
     <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col items-center text-center">
         <div class="text-5xl mb-4">🌟</div>
-        <h2 class="text-sm font-bold text-blue-500 uppercase tracking-widest mb-1">Chính xác!</h2>
-        <h1 id="modal-word-text" class="text-4xl font-black text-slate-800 mb-3 break-all">WORD</h1>
-        <p id="modal-meaning-text" class="text-lg text-slate-600 mb-8 px-4">Nghĩa là: ...</p>
+        <h2 class="text-sm font-bold text-blue-500 uppercase tracking-widest mb-1">Từ vựng là:</h2>
+        <h1 id="modal-word-text" class="text-4xl font-black text-slate-800 mb-3 break-all uppercase">WORD</h1>
+        <div class="w-full h-px bg-slate-100 my-4"></div>
+        <p id="modal-meaning-text" class="text-xl text-blue-600 font-semibold mb-8 px-4 italic underline decoration-blue-200">Nghĩa là: ...</p>
         <button id="modal-next-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95">
-            Tiếp tục ôn tập ➔
+            Tiếp tục ván mới ➔
         </button>
     </div>
 </div>
 
-<div id="game-container" class="max-w-2xl w-full bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-blue-100 flex flex-col items-center">
+<div id="game-container" class="max-w-2xl w-full bg-white/80 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl border border-blue-100 flex flex-col items-center">
     
     <div class="w-full flex justify-between items-start mb-4">
         <div class="text-left">
-            <h1 class="text-3xl font-black text-blue-600">Snowman Deluxe ☃️</h1>
-            <p class="text-slate-500 italic text-sm">Business & Shopping Vocabulary</p>
+            <h1 class="text-2xl sm:text-3xl font-black text-blue-600">Snowman ☃️</h1>
+            <p class="text-slate-500 italic text-xs sm:text-sm">Business & Shopping Vocab</p>
         </div>
         <div class="flex flex-col items-end gap-2">
-            <div id="lives-counter" class="bg-orange-100 text-orange-600 px-4 py-1 rounded-full font-bold border border-orange-200">
+            <div id="lives-counter" class="bg-orange-100 text-orange-600 px-4 py-1 rounded-full font-bold border border-orange-200 text-sm">
                 Còn lại: 10 lượt
             </div>
             <button id="mute-btn" class="p-2 bg-blue-100 rounded-full hover:bg-blue-200 transition-colors">
@@ -50,7 +51,7 @@
 
     <div class="relative w-64 h-72 mb-8 bg-blue-50 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-blue-100">
         <div class="absolute top-2 right-2 text-yellow-400">
-            <svg class="w-12 h-12 sun-active" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.243 1.757a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zm-2.757 4.243a1 1 0 011.414 0l.707.707a1 1 0 11-1.414 1.414l-.707-.707a1 1 0 010-1.414zM10 18a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1zm-4.243-1.757a1 1 0 010-1.414l.707-.707a1 1 0 011.414 1.414l-.707.707a1 1 0 01-1.414 0zM3 10a1 1 0 011-1h1a1 1 0 110 2H4a1 1 0 01-1-1zm1.757-4.243a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM10 7a3 3 0 100 6 3 3 0 000-6z"></path></svg>
+            <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.243 1.757a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zm-2.757 4.243a1 1 0 011.414 0l.707.707a1 1 0 11-1.414 1.414l-.707-.707a1 1 0 010-1.414zM10 18a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1zm-4.243-1.757a1 1 0 010-1.414l.707-.707a1 1 0 011.414 1.414l-.707.707a1 1 0 01-1.414 0zM3 10a1 1 0 011-1h1a1 1 0 110 2H4a1 1 0 01-1-1zm1.757-4.243a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM10 7a3 3 0 100 6 3 3 0 000-6z"></path></svg>
         </div>
 
         <svg viewBox="0 0 200 240" class="w-48 h-60">
@@ -81,11 +82,19 @@
         </div>
     </div>
 
-    <div id="word-display" class="flex flex-wrap justify-center gap-2 mb-10 min-h-[40px]"></div>
+    <div id="word-display" class="flex flex-wrap justify-center gap-2 mb-8 min-h-[40px]"></div>
+
+    <div class="mb-6 w-full flex justify-end pr-2">
+        <button id="quick-correct-btn" class="bg-green-500 hover:bg-green-600 text-white font-black py-3 px-6 rounded-2xl shadow-lg border-b-4 border-green-700 transition-all hover:-translate-y-1 active:translate-y-0 active:border-b-0 flex items-center gap-2 animate-pulse-soft text-sm sm:text-base">
+            <span>✅ CHÍNH XÁC!</span>
+            <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-md hidden sm:inline-block">(Hiện từ)</span>
+        </button>
+    </div>
+
     <div id="keyboard" class="grid grid-cols-7 sm:grid-cols-9 gap-2 w-full max-w-md"></div>
 
     <div id="message-container" class="mt-8 hidden flex flex-col items-center">
-        <p id="game-status-text" class="text-2xl font-bold mb-4"></p>
+        <p id="game-status-text" class="text-xl font-bold mb-4"></p>
         <button id="restart-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-bold shadow-lg transform transition hover:scale-105 active:scale-95">
             Chơi ván mới 🔄
         </button>
@@ -123,7 +132,6 @@ const MAX_MISTAKES = 10;
 let isMuted = false;
 let audioInitialized = false;
 
-// Audio Synths
 let polySynth, noiseSynth, synth;
 
 async function initAudio() {
@@ -137,10 +145,7 @@ async function initAudio() {
         }).toDestination();
         synth = new Tone.Synth().toDestination();
         audioInitialized = true;
-        console.log("Audio Initialized");
-    } catch (e) {
-        console.error("Audio failed", e);
-    }
+    } catch (e) {}
 }
 
 function playCorrectSound() { if (!isMuted && audioInitialized) polySynth.triggerAttackRelease(["E5", "G5"], "16n"); }
@@ -163,6 +168,8 @@ function initGame() {
 
     document.getElementById('message-container').classList.add('hidden');
     document.getElementById('success-modal').classList.add('hidden', 'opacity-0');
+    document.getElementById('quick-correct-btn').classList.remove('hidden', 'opacity-50');
+    document.getElementById('keyboard').classList.remove('pointer-events-none', 'opacity-50');
     document.getElementById('puddle').classList.add('hidden');
     document.getElementById('puddle').classList.remove('opacity-100');
     
@@ -181,11 +188,10 @@ function updateCountdown() {
     const remaining = MAX_MISTAKES - mistakes;
     const counterEl = document.getElementById('lives-counter');
     counterEl.textContent = `Còn lại: ${remaining} lượt`;
-    
     if (remaining <= 3) {
         counterEl.className = "bg-red-100 text-red-600 px-4 py-1 rounded-full font-bold border border-red-200 animate-pulse";
     } else {
-        counterEl.className = "bg-orange-100 text-orange-600 px-4 py-1 rounded-full font-bold border border-orange-200";
+        counterEl.className = "bg-orange-100 text-orange-600 px-4 py-1 rounded-full font-bold border border-orange-200 text-sm";
     }
 }
 
@@ -215,7 +221,7 @@ function renderKeyboard() {
     alphabet.split('').forEach(letter => {
         const btn = document.createElement('button');
         btn.textContent = letter;
-        btn.className = "letter-btn uppercase p-2 bg-white border border-blue-100 rounded-lg font-bold shadow-sm hover:bg-blue-50 hover:border-blue-300 transition-all text-slate-600 active:scale-90 text-sm sm:text-base";
+        btn.className = "letter-btn uppercase p-2 bg-white border border-blue-100 rounded-lg font-bold shadow-sm hover:bg-blue-50 hover:border-blue-300 transition-all text-slate-600 active:scale-90 text-sm";
         btn.onclick = async () => {
             await initAudio();
             handleGuess(letter, btn);
@@ -253,15 +259,26 @@ function meltSnowman(mistakeCount) {
 function checkWin() {
     const isWon = [...selectedWord].every(char => char === " " || guessedLetters.includes(char));
     if (isWon) {
-        playWinSound();
-        setTimeout(() => {
-            const modal = document.getElementById('success-modal');
-            document.getElementById('modal-word-text').textContent = selectedWord.toUpperCase();
-            document.getElementById('modal-meaning-text').textContent = `Nghĩa là: ${currentWordObj.meaning}`;
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }, 500);
+        showSuccess();
     }
+}
+
+async function showSuccess() {
+    await initAudio();
+    playWinSound();
+    
+    // Reveal all letters
+    guessedLetters = selectedWord.split("");
+    renderWord();
+    
+    document.getElementById('keyboard').classList.add('pointer-events-none', 'opacity-50');
+    document.getElementById('quick-correct-btn').classList.add('opacity-50', 'pointer-events-none');
+    
+    const modal = document.getElementById('success-modal');
+    document.getElementById('modal-word-text').textContent = selectedWord;
+    document.getElementById('modal-meaning-text').textContent = `Nghĩa là: ${currentWordObj.meaning}`;
+    modal.classList.remove('hidden');
+    setTimeout(() => modal.classList.remove('opacity-0'), 10);
 }
 
 function checkLoss() {
@@ -270,12 +287,14 @@ function checkLoss() {
         document.getElementById('puddle').classList.remove('hidden');
         setTimeout(() => document.getElementById('puddle').classList.add('opacity-100'), 100);
         document.getElementById('game-status-text').textContent = `Ôi không! Từ đúng là: ${selectedWord.toUpperCase()}`;
-        document.getElementById('game-status-text').className = "text-2xl font-bold mb-4 text-red-500";
+        document.getElementById('game-status-text').className = "text-xl font-bold mb-4 text-red-500";
         document.getElementById('message-container').classList.remove('hidden');
         document.querySelectorAll('.letter-btn').forEach(btn => btn.disabled = true);
+        document.getElementById('quick-correct-btn').classList.add('hidden');
     }
 }
 
+document.getElementById('quick-correct-btn').onclick = showSuccess;
 document.getElementById('modal-next-btn').onclick = initGame;
 document.getElementById('restart-btn').onclick = initGame;
 document.getElementById('mute-btn').onclick = () => {
